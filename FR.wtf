@@ -1,7 +1,26 @@
 --Fast Respawn??
-game.Players.LocalPlayer.Character.Head:Destroy()
-if game.Players.LocalPlayer.Character.Humanoid.Health < 5 then 
-    local deathmanok = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").position
-    wait(1.5)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(deathmanok)
-end
+
+local players = game:GetService("Players");
+
+
+for _,v in ipairs(players:GetPlayers()) do
+spawn(function()
+v.CharacterAdded:Connect(function(char)
+repeat wait() until char:FindFirstChildOfClass("Humanoid");
+char:FindFirstChildOfClass("Humanoid").Died:Connect(function()
+v:LoadCharacter();
+end);
+end);
+end);
+end;
+
+players.PlayerAdded:Connect(function(v)
+spawn(function()
+v.CharacterAdded:Connect(function(char)
+repeat wait() until char:FindFirstChildOfClass("Humanoid");
+char:FindFirstChildOfClass("Humanoid").Died:Connect(function()
+v:LoadCharacter();
+end);
+end);
+end);
+end);
